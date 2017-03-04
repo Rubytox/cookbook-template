@@ -1,0 +1,31 @@
+\documentclass[oneside,11pt]{memoir} 
+
+\newcommand{\thanklesstitle}{COOKBOOK}
+\newcommand{\thanklessauthor}{Marvin Wright}
+\newcommand{\thanklesspublisher}{MW Prints}
+
+\input{cookbook.sty}
+
+\begin{document}
+\BookTitlePage
+\BookCopyright
+\BookTOC
+
+\scriptsize
+
+\ChapterPage{Breads, Muffins \& Scones}
+
+\ChapterPage{Breakfast}
+\ChapterPage{Main Dishes}
+\ChapterPage{Side Dishes}
+\ChapterPage{Desserts}
+
+\input{"5. desserts/cheesecake1"}
+\input{"5. desserts/cheesecake"}
+\input{"5. desserts/cheesecake1"}
+\input{"5. desserts/cheesecake1"}
+
+\ChapterPage{Snacks}
+\ChapterPage{Sauces and Salsas}
+
+\end{document}

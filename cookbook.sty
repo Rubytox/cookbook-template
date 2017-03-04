@@ -1,0 +1,316 @@
+\usepackage{afterpage}
+\usepackage{etoolbox}
+\usepackage{fontawesome}
+\usepackage{wrapfig}
+\usepackage{titlesec}
+\usepackage{lettrine}
+\usepackage{GoudyIn}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{titletoc,tocloft}
+\usepackage{cookingsymbols}
+\usepackage[clock, misc, weather]{ifsym}
+
+\definecolor[named]{background}{RGB}{246,247,236}
+\definecolor[named]{toc1}{RGB}{127,0,0}
+\definecolor[named]{toc2}{RGB}{169,121,69}
+\definecolor[named]{myred}{RGB}{143,20,4}
+
+\renewcommand{\LettrineFontHook}{\color{Brown}\GoudyInfamily{}}
+\LettrineTextFont{\itshape}
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+
+\usepackage[osf]{libertine} % Use the Libertine font
+\usepackage{microtype} % Improves character and word spacing
+
+\usepackage{tikz}
+\usepackage{wallpaper} % Required for setting background images (title page)
+
+\usepackage[unicode=true,bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,breaklinks=false,pdfborder={0 0 1},backref=section,colorlinks=false]{hyperref} 
+\usepackage{bookmark}
+
+\DeclareTextFontCommand{\textsmallcaps}{\scshape}
+
+\newcommand{\monthyear}{%
+  \ifcase\month\or January\or February\or March\or April\or May\or June\or
+  July\or August\or September\or October\or November\or
+  December\fi\space\number\year
+}
+
+\newcommand{\blankpage}{\newpage\hbox{}\thispagestyle{empty}\newpage}
+
+\newcommand{\thedate}{\today}
+
+\newcommand{\publisher}[2][]{
+  \gdef\@publisher{#2}
+  \begingroup%
+    \renewcommand{\thanks}[1]{}
+    \protected@xdef\thanklesspublisher{#2}
+  \endgroup%
+  \ifthenelse{\isempty{#1}}
+    {\renewcommand{\plainpublisher}{\thanklesspublisher}}
+    {\renewcommand{\plainpublisher}{#1}}
+}
+
+%----------------------------------------------------------------------------------------
+%	PAPER, MARGIN AND HEADER/FOOTER SIZES
+%----------------------------------------------------------------------------------------
+
+\setstocksize{12.5cm}{9.4cm} % Paper size
+\settrimmedsize{\stockheight}{\stockwidth}{*} % No trims
+\setlrmarginsandblock{18pt}{18pt}{*} % Left/right margins
+\setulmarginsandblock{30pt}{36pt}{*} % Top/bottom margins
+\setheadfoot{14pt}{12pt} % Header/footer height
+\setheaderspaces{*}{8pt}{*} % Extra header space
+
+%----------------------------------------------------------------------------------------
+%	FOOTNOTE CUSTOMIZATION
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\foottextfont}{\itshape\footnotesize} % Font settings for footnotes
+\setlength{\footmarkwidth}{-.1em} % Space between the footnote number and the text
+\setlength{\footmarksep}{.1em} % Space between multiple footnotes on the same page
+\renewcommand*{\footnoterule}{} % Remove the rule above the first footnote
+\setlength{\skip\footins}{1\onelineskip} % Space between the body text and the footnote
+
+%----------------------------------------------------------------------------------------
+%	HEADER AND FOOTER FORMATS
+%----------------------------------------------------------------------------------------
+
+\makepagestyle{mio} % Define a new custom page style
+\setlength{\headwidth}{\textwidth} % Header the same width as the text
+\makeheadrule{mio}{\textwidth}{0.1mm} % Header rule height
+\makeoddhead{mio}{\scriptsize{\thanklessauthor\hskip.2cm\vrule\hskip.2cm\itshape{\thanklesstitle}}}{}{} % Header specification
+\makeoddfoot{mio}{}{\scriptsize {\thepage \quad \raisebox{0pt}{\vline height 1ex} \quad \thelastpage}}{} % Footer specification
+\makeoddfoot{plain}{}{\footnotesize {\thepage \quad \raisebox{0pt}{\vline height 1ex} \quad \thelastpage}}{} % Pages of chapters
+\pagestyle{mio} % Set the page style to the custom style defined above
+
+%----------------------------------------------------------------------------------------
+%	CHAPTER FORMAT
+%----------------------------------------------------------------------------------------
+
+\makechapterstyle{Tufte}{ % Define a new chapter style
+    \renewcommand{\chapterheadstart}{\null \vskip3.5\onelineskip} % Whitespace before the chapter starts
+    \renewcommand{\printchaptername}{\large\itshape\chaptername} % "Chapter" text font specification
+    \renewcommand{\printchapternum}{\LARGE\thechapter \\} % Chapter number font specification
+    \renewcommand{\afterchapternum}{} % Space between the chapter number and text
+    \renewcommand{\printchaptertitle}[1]{ % Chapter title font specification
+    \raggedright
+    \itshape\Huge{##1}}
+    \renewcommand{\afterchaptertitle}{
+        \vskip3.5\onelineskip
+    }
+}
+\chapterstyle{Tufte} % Set the chapter style to the custom style defined above
+
+%----------------------------------------------------------------------------------------
+%	SECTION FORMAT
+%----------------------------------------------------------------------------------------
+
+\setsecheadstyle{\sethangfrom{\noindent ##1}\raggedright\sffamily\Large}
+\setbeforesecskip{-.6\onelineskip} % Whitespace before the section
+\setaftersecskip{.3\onelineskip} % Whitespace after the section
+\titleformat{\section}[block]{\Large\sffamily\filcenter}{}{1em}{}
+
+%----------------------------------------------------------------------------------------
+%	CAPTION FORMAT
+%----------------------------------------------------------------------------------------
+
+\captiontitlefont{\itshape\footnotesize} % Caption font specification
+\captionnamefont{\footnotesize} % "Caption" text font specification
+
+%----------------------------------------------------------------------------------------
+%	QUOTATION ENVIRONMENT FORMAT
+%----------------------------------------------------------------------------------------
+
+\renewenvironment{quotation}
+{\par\leftskip=0em\vskip-3.0\onelineskip\em\normalsize}
+{\par\vskip.5\onelineskip}
+
+%----------------------------------------------------------------------------------------
+%	MISCELLANEOUS DOCUMENT SPECIFICATIONS
+%----------------------------------------------------------------------------------------
+
+\setlength{\parindent}{0em} % Paragraph indentation
+\setlength{\parskip}{8pt}
+
+\midsloppy % Fewer overfull lines - used in the memoir class and allows a setting somewhere between \fussy and \sloppy
+
+\checkandfixthelayout % Tell memoir to implement the above
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\newcommand{\BookTitlePage}
+{
+    \thispagestyle{empty}
+    \ThisCenterWallPaper{1.12}{covers/maincover}
+    \begin{tikzpicture}[remember picture,overlay]
+    \node [rectangle, rounded corners, fill=white, opacity=0.0, anchor=north, minimum width=6cm, minimum height=2cm] (box) at (5.8,1.3) (box){}; 
+    \node[anchor=center, text centered, black, text width=6cm, font=\sffamily\bfseries\scshape\Huge] at (box.center){\thanklesstitle}; 
+    \node[anchor=center, text centered, myred, yshift=-0.7cm, text width=6cm, font=\sffamily\bfseries] at (box.center){\thanklessauthor};
+    \end{tikzpicture}
+    \newpage 
+}
+
+%----------------------------------------------------------------------------------------
+%	COPYRIGHT
+%----------------------------------------------------------------------------------------
+
+\newcommand{\BookCopyright}
+{
+    ~\vfill
+    \thispagestyle{empty}
+    {
+        \fontsize{7pt}{7pt}\selectfont
+        \setlength{\parskip}{0.5em}
+        Copyright \copyright\ \the\year\ \thanklessauthor
+        \par\scshape{published by \MakeLowercase{\thanklesspublisher}} \vspace{0.5em}
+        \par licensed under the apache license, version 2.0 (the ``license''); you may not
+        use this file except in compliance with the license. you may obtain a copy
+        of the license at http://www.apache.org. unless
+        required by applicable law or agreed to in writing, software distributed
+        under the license is distributed on an \scshape{``as is'' basis, without 
+        warranties or conditions of any kind}, either express or implied. see the
+        license for the specific language governing permissions and limitations
+        under the license.\index{license}
+        \par\textit{first printing, \MakeLowercase{\monthyear}}
+    }
+    \newpage
+}
+
+%----------------------------------------------------------------------------------------
+%	TOC
+%----------------------------------------------------------------------------------------
+
+\makepagestyle{mtoc}
+\makeoddhead{mtoc}{ \ThisCenterWallPaper{1.12}{toc} }{}{} 
+\makeevenhead{mtoc}{ \ThisCenterWallPaper{1.12}{toc} }{}{} 
+\makeoddfoot{mtoc}{}{\scriptsize {\thepage}}{}
+\makeevenfoot{mtoc}{}{\scriptsize {\thepage}}{}
+
+\newcommand{\BookTOC}
+{  
+    \pagestyle{mtoc}
+    \frontmatter
+    \ThisCenterWallPaper{1.12}{"toc"}
+    \tableofcontents*
+    \mainmatter
+    \pagestyle{mio}
+}
+
+%----------------------------------------------------------------------------------------
+%	RECIPE
+%----------------------------------------------------------------------------------------
+
+\newcommand{\recipe}[6]{
+    \newpage
+    \section*{#1}
+    \addcontentsline{toc}{section}{\protect\numberline{}#1}
+    \vspace{-0.6cm}
+
+    {
+        \begin{center}
+        \scriptsize
+        \VarClock\, \raisebox{2pt}{#2} \quad
+        {\footnotesize \raisebox{1pt}{\Fork \Knife}} \, \raisebox{2pt}{#3} 
+        \ifthenelse{\equal{#4}{}}{}{\quad {\footnotesize \raisebox{1pt}{\Oven}} \, \raisebox{2pt}{#4}}
+        \ifthenelse{\equal{#5}{}}{}{\quad \Thermo{3}\, \raisebox{2pt}{#5}} 
+        \end{center}
+        \vspace{0.1cm}
+    }
+      
+    \ifthenelse{\equal{#6}{}}{ \vspace{-0.8cm} }{\vspace{-0.2cm} \includegraphics[width=\textwidth]{#6} \vspace{-0.7cm}}    
+}
+    
+\newcommand{\inghead}{
+    \textbf{Ingredients}:\  
+    \vspace{0.2cm}
+    \hrule height0.25pt width\hsize
+    \vspace{-0.3cm}
+    \tiny
+}
+
+\newcommand{\ingred}[1]{
+    {
+        \list{}{\rightmargin 0.3em\leftmargin 0.3em}%
+        \item[]\inghead#1\endlist
+    }%
+    \hrule height0.25pt width\hsize
+}
+
+\newcommand{\bdot}{\textbullet\hspace{0.15cm}}
+\newcommand{\rechead}{\centering\bsi{24pt}{30pt}}
+
+%----------------------------------------------------------------------------------------
+%	CHAPTERS
+%----------------------------------------------------------------------------------------
+
+\titleformat{\chapter}[display]
+{
+      \thispagestyle{empty} 
+      \ThisCenterWallPaper{1.12}{"covers/chapter_\thechapter"}
+} 
+{
+    \vspace{-2cm}
+    \centering \normalsize \color{black}
+    \MakeUppercase {\thanklessauthor}
+}{10 pt}
+{
+    \vspace{-0.7cm} \color{black} \huge \centering \sffamily \MakeUppercase 
+}  
+
+\newcommand{\ChapterPage}[1]
+{ 
+    \chapter{#1}
+    \renewcommand{\thanklesstitle}{#1}
+    \clearpage
+    \pdfbookmark[0]{#1}{#1}
+    \newpage 
+    \title{#1}
+}
+
+%----------------------------------------------------------------------------------------
+%	CHARACTERS PAGE
+%----------------------------------------------------------------------------------------
+
+\renewcommand\contentsname{\vspace{-3.5cm}}
+\cftsetindents{section}{0.4in}{0.45in}
+\makeatletter
+        
+\renewenvironment{leftbar}
+{%
+    \def\FrameCommand{{\color{toc2}\vrule width 2pt depth 6pt} \hspace{2pt}}%
+    \MakeFramed {\advance\hsize-\width \FrameRestore}
+}%
+{\endMakeFramed}
+
+\def\@chapter[#1]#2
+{
+    \ifnum \c@secnumdepth >\m@ne
+    \refstepcounter{chapter}%
+    \typeout{\@chapapp\space\thechapter.}%
+    \addtocontents{toc}
+    {%
+        {
+            \protect\parbox{4.5em}
+            {
+                \hfill\Large\color{toc1}\bfseries\thepage
+            }
+        }%
+        \protect\hspace*{0.0cm}
+        \protect\parbox{\dimexpr\linewidth-3em\relax}
+        {%
+            \protect\begin{leftbar}
+            {\vspace{2mm}\sffamily\MakeUppercase#2 }
+            \protect\end{leftbar}
+        }\par\noindent
+    }%
+    \chaptermark{#1}%
+    \@makechapterhead{#2}%
+    \@afterheading
+}
